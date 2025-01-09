@@ -10,18 +10,21 @@ use std::io::{self, copy};
 use std::time::Instant;
 
 fn main() -> io::Result<()> {
+    // Collect the command line arguments
+    let args: Vec<String> = args().collect();
+
     // Check if the user provided the input and output file paths
-    if args().len() < 3 {
+    if args.len() < 3 {
         eprintln!(
             "Usage: {} <input file> <output file>",
-            args().nth(0).unwrap()
+            args.get(0).unwrap_or(&"compress".to_string())
         );
         std::process::exit(1);
     }
 
     // Get the input and output file paths
-    let input_file_path = args().nth(1).expect("Missing input file");
-    let output_file_path = args().nth(2).expect("Missing output file");
+    let input_file_path = &args[1];
+    let output_file_path = &args[2];
 
     // Open the input file
     let mut input_file = File::open(&input_file_path)?;
